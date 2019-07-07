@@ -1,5 +1,5 @@
 {
-  "name": "algotrader",
+  "name": "algotrader-updated",
   "version": "2.4.9",
   "description": "Algorithmically trade stocks and options using Robinhood, Yahoo Finance, and more.",
   "main": "./index.js",

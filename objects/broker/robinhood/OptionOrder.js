@@ -100,6 +100,29 @@ class OptionOrder extends Robinhood {
 	}
 
 	/**
+	 * Attempts to cancel an order.
+	 * @author Torrey Leonard <https://github.com/Ladinn>
+	 * @returns {Promise<Object>}
+	 */
+	cancel() {
+		const _this = this;
+		return new Promise((resolve, reject) => {
+			if (!_this.executed) reject(new Error("Order has not yet been executed."));
+			else if (_this.cancel_url === null) reject(new Error("Order has been executed and cannot be cancelled."));
+			else {
+				request.post({
+					uri: _this.cancel_url,
+					headers: {
+						'Authorization': 'Bearer ' + _this.user.getAuthToken()
+					}
+				}, (error, response, body) => {
+					return Robinhood.handleResponse(error, response, body, _this.user.getAuthToken(), resolve, reject);
+				})
+			}
+		})
+	}
+
+	/**
 	 * Returns an array of executed OptionOrders.
 	 * NOTE: See OptionInstrument.getPositions for an array of open positions.
 	 * @author Torrey Leonard <https://github.com/Ladinn>

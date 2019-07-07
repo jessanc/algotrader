@@ -81,7 +81,7 @@ class OptionInstrument extends Robinhood {
 					chain_symbol: instrument.symbol,
 					type: side,
 					tradability: "tradable",
-					state: "active"
+					state: "active",
 				}
 			}, (error, response, body) => {
 				return Robinhood.handleResponse(error, response, body, user.getAuthToken(), res => {
@@ -92,6 +92,30 @@ class OptionInstrument extends Robinhood {
 						else instrumentsArray.push(new OptionInstrument(x));
 					});
 					resolve(_.orderBy(instrumentsArray, 'strikePrice'));
+				}, reject);
+			})
+		})
+	}
+
+	static getOption(user, instrument, side, expiration, strike){
+		return new Promise((resolve, reject) => {
+			request({
+				uri: "https://api.robinhood.com/options/instruments/",
+				headers: {
+					'Authorization': 'Bearer ' + user.getAuthToken()
+				},
+				qs: {
+					chain_symbol: instrument.symbol,
+					type: side,
+					tradability: "tradable",
+					state: "active",
+					expiration_dates : expiration,
+					strike_price : strike
+				}
+			}, (error, response, body) => {
+				return Robinhood.handleResponse(error, response, body, user.getAuthToken(), res => {
+					let instrument = new OptionInstrument(res);
+					resolve(instrument);
 				}, reject);
 			})
 		})

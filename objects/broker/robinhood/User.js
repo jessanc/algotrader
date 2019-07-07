@@ -24,10 +24,11 @@ class User extends Robinhood {
 	 * @param {String} username
 	 * @param {String} password - Optional. If not provided the user will be prompted via CLI.
 	 */
-	constructor(username, password) {
+	constructor(username, password, deviceToken) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.deviceToken = deviceToken;
 		this.token = null; // Authentication token
 		this.account = null; // Account number
 		this.expires = null; // Auth expiration date (24 hours after login)
@@ -68,6 +69,7 @@ class User extends Robinhood {
 					username: _this.username,
 					password: _this.password,
 					client_id: 'c82SH0WZOsabOXGP2sxqcj34FxkvfnWRZBKlBjFS',
+					device_toke: _this.deviceToken,
 					grant_type: 'password',
 					scope: 'internal'
 				}
@@ -115,6 +117,7 @@ class User extends Robinhood {
 					username: _this.username,
 					password: _this.password,
 					client_id: 'c82SH0WZOsabOXGP2sxqcj34FxkvfnWRZBKlBjFS',
+					_device_token : _this.deviceToken,
 					grant_type: 'password',
 					scope: 'internal',
 					mfa_code: mfaCode

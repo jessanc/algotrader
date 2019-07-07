@@ -92,6 +92,25 @@ class Market extends Robinhood {
 		})
 	}
 
+	static getOptionQuoute(user, url) {
+		return new Promise((resolve, reject) => {
+			if (url == null) reject(new Error("Option cannot be null"));
+			request({
+				uri: 'https://api.robinhood.com/marketdata/options/',
+				headers: {
+					'Authorization': 'Bearer ' + user.getAuthToken()
+				},
+				qs: {
+					instruments : url
+				}
+			}, (error, response, body) => {
+				return Robinhood.handleResponse(error, response, body, user.getAuthToken(), res => {
+					resolve(res);
+				}, reject);
+			})
+		})
+	}
+
 	// GET from API
 
 	/**
